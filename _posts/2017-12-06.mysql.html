@@ -1,0 +1,35 @@
+---
+layout: default
+title: 添加一篇文章
+---
+<h2>{{ page.title }}</h2>
+<h3>mysql需要注意的</h3>
+<p>delete from test  where id in (select id from (select * from test where id <13) as t1)
+    mysql 要多套一层查询才能运行,delete和update适用,注意后面的as t1</p>
+<p>删除重复数据用的:select min(id) from 表名 groupby(字段) 然后用not in</p>
+<p>grant all privileges on *.* to jack@'localhost' identified by "jack" with grant option;</p>
+<p>GRANT命令说明：
+    ALL PRIVILEGES 是表示所有权限，你也可以使用select、update等权限。
+    ON 用来指定权限针对哪些库和表。
+    *.* 中前面的*号用来指定数据库名，后面的*号用来指定表名。
+    TO 表示将权限赋予某个用户。
+    jack@'localhost' 表示jack用户，@后面接限制的主机，可以是IP、IP段、域名以及%，%表示任何地方。注意：这里%有的版本不包括本地，以前碰到过给某个用户设置了%允许任何地方登录，但是在本地登录不了，这个和版本有关系，遇到这个问题再加一个localhost的用户就可以了。
+    IDENTIFIED BY 指定用户的登录密码。
+    WITH GRANT OPTION 这个选项表示该用户可以将自己拥有的权限授权给别人。注意：经常有人在创建操作用户的时候不指定WITH GRANT OPTION选项导致后来该用户不能使用GRANT命令创建用户或者给其它用户授权。
+备注：可以使用GRANT重复给用户添加权限，权限叠加，比如你先给用户添加一个select权限，然后又给用户添加一个insert权限，那么该用户就同时拥有了select和insert权限。</p>
+<p>用flush privileges;命令刷新权限</p>
+<h3>MySQL一些设置的问题</h3>
+<p>utf8mb4字符是utf8的超集,可以包含emojy表情等特殊字符</p>
+<p>我服务器上的一套配置</p>
+<p>[mysqld]
+    port=3306
+    max_connections=3000
+    character-set-server=utf8
+    default-storage-engine=MyISAM
+    sql-mode="NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES"
+    slow_query_log = On  
+    [mysql]
+    default-character-set=utf8
+    #secure-file-priv ="C:/ProgramData/MySQL/MySQL Server 5.7/Uploads"
+    </p>
+<p>{{ page.date | date_to_string }}</p>
